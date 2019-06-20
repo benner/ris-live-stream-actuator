@@ -1,0 +1,12 @@
+[package]
+name = "ripe-live-stream-actuator3"
+version = "0.1.0"
+authors = ["Nerijus Bendziunas <nerijus.bendziunas@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+tungstenite = "0.8.1"
+url = "1.7.2"
+env_logger = "0.6.1"
+serde = { version = "1.0.60", features = ["serde_derive"] }
+serde_json = "1.0"
