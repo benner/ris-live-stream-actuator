@@ -12,8 +12,8 @@ use tungstenite::{connect, Message};
 use url::Url;
 
 // FIXME: shoulbe be parameterized
-const CONNECTION: &str = "wss://ris-live.ripe.net/v1/ws/?client=rust-workshop-1299";
-const SUBSCRIBE: &str = "{\"type\": \"ris_subscribe\", \"data\": {\"host\": \"rrc21\"}}";
+const CONNECTION: &str = r#"wss://ris-live.ripe.net/v1/ws/?client=rust-workshop-1299"#;
+const SUBSCRIBE: &str = r#"{"type": "ris_subscribe", "data": {"host": "rrc21"}}"#;
 
 #[derive(Deserialize, Debug)]
 struct Annoucment {
@@ -148,23 +148,56 @@ mod tests {
 
     #[test]
     fn test_parse_message_defaul_values() {
-        let message : super::MSG = super::parse_message("{\"type\": \"ris_data\", \"data\": {\"timestamp\": 1561021440.88, \"type\": \"UPDATE\"}}");
+        let message : super::MSG = super::parse_message(r#"
+            {
+                "type": "ris_data",
+                "data": {
+                            "timestamp": 1561021440.88,
+                            "type": "UPDATE"
+                        }
+            }
+            "#);
         assert_eq!(message.data.announcements.len(), 0);
         assert_eq!(message.data.withdrawals.len(), 0);
     }
 
     #[test]
     fn test_parse_message_withdrawals() {
-        let message : super::MSG = super::parse_message("{\"type\": \"ris_data\", \"data\": {\"timestamp\": 1561021440.88, \"type\": \"UPDATE\", \"withdrawals\": [\"192.168.0.1/24\"]}}");
+        let message : super::MSG = super::parse_message(r#"
+            {
+                "type": "ris_data",
+                "data": {
+                            "timestamp": 1561021440.88,
+                            "type": "UPDATE",
+                            "withdrawals": ["192.168.0.1/24"]
+                        }
+            }
+            "#);
         assert_eq!(message.data.withdrawals.len(), 1);
         assert_eq!(message.data.withdrawals, vec!["192.168.0.1/24"]);
     }
 
     #[test]
-    fn test_parse_message_announcements(){
-        let message : super::MSG = super::parse_message("{\"type\": \"ris_data\", \"data\": {\"timestamp\": 1561021440.88, \"type\": \"UPDATE\", \"announcements\": [{\"next_hop\": \"192.168.0.1\", \"prefixes\": [\"192.168.2.0/24\"]}]}}");
+    fn test_parse_message_announcements() {
+        let message: super::MSG = super::parse_message(
+            r#"
+            {
+                "type": "ris_data",
+                "data": {
+                            "timestamp": 1561021440.88,
+                            "type": "UPDATE",
+                            "announcements": [{
+                                "next_hop": "192.168.0.1",
+                                "prefixes": ["192.168.2.0/24"]
+                            }]
+                        }
+            }
+            "#);
         assert_eq!(message.data.announcements.len(), 1);
         assert_eq!(message.data.announcements[0].next_hop, "192.168.0.1");
-        assert_eq!(message.data.announcements[0].prefixes, vec!["192.168.2.0/24"]);
+        assert_eq!(
+            message.data.announcements[0].prefixes,
+            vec!["192.168.2.0/24"]
+        );
     }
 }
