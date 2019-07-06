@@ -543,7 +543,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ripe-live-stream-actuator3"
+name = "ripe-live-stream-actuator"
 version = "0.1.0"
 dependencies = [
  "env_logger 0.6.2 (registry+https://github.com/rust-lang/crates.io-index)",
