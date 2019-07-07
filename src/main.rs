@@ -64,7 +64,7 @@ fn ipset_action(action: &str, prefix: &str) {
 
 fn on_withdrawals(prefixes: &[String]) {
     for prefix in prefixes {
-        print!("w {:#?}\n", prefix);
+        println!("w {:#?}", prefix);
         ipset_action("add", prefix);
     }
 }
@@ -72,7 +72,7 @@ fn on_withdrawals(prefixes: &[String]) {
 fn on_announcements(annoucments: &[Annoucment]) {
     for a in annoucments {
         for prefix in &a.prefixes {
-            print!("a {:#?}\n", prefix);
+            println!("a {:#?}", prefix);
             ipset_action("del", prefix);
         }
     }
