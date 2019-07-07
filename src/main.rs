@@ -42,9 +42,10 @@ fn is_v6(network: &str) -> bool {
 }
 
 fn ipset_table(prefix: &str) -> &str {
-    match is_v6(prefix) {
-        true => "test6",
-        false => "test4",
+    if is_v6(prefix) {
+        "test6"
+    } else {
+        "test4"
     }
 }
 
