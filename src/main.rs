@@ -62,14 +62,14 @@ fn ipset_action(action: &str, prefix: &str) {
     }
 }
 
-fn on_withdrawals(prefixes: &Vec<String>) {
+fn on_withdrawals(prefixes: &[String]) {
     for prefix in prefixes {
         print!("w {:#?}\n", prefix);
         ipset_action("add", prefix);
     }
 }
 
-fn on_announcements(annoucments: &Vec<Annoucment>) {
+fn on_announcements(annoucments: &[Annoucment]) {
     for a in annoucments {
         for prefix in &a.prefixes {
             print!("a {:#?}\n", prefix);
