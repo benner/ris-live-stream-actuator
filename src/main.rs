@@ -149,7 +149,8 @@ mod tests {
 
     #[test]
     fn test_parse_message_defaul_values() {
-        let message : super::MSG = super::parse_message(r#"
+        let message: super::MSG = super::parse_message(
+            r#"
             {
                 "type": "ris_data",
                 "data": {
@@ -157,14 +158,16 @@ mod tests {
                             "type": "UPDATE"
                         }
             }
-            "#);
+            "#,
+        );
         assert_eq!(message.data.announcements.len(), 0);
         assert_eq!(message.data.withdrawals.len(), 0);
     }
 
     #[test]
     fn test_parse_message_withdrawals() {
-        let message : super::MSG = super::parse_message(r#"
+        let message: super::MSG = super::parse_message(
+            r#"
             {
                 "type": "ris_data",
                 "data": {
@@ -173,7 +176,8 @@ mod tests {
                             "withdrawals": ["192.168.0.1/24"]
                         }
             }
-            "#);
+            "#,
+        );
         assert_eq!(message.data.withdrawals.len(), 1);
         assert_eq!(message.data.withdrawals, vec!["192.168.0.1/24"]);
     }
@@ -193,7 +197,8 @@ mod tests {
                             }]
                         }
             }
-            "#);
+            "#,
+        );
         assert_eq!(message.data.announcements.len(), 1);
         assert_eq!(message.data.announcements[0].next_hop, "192.168.0.1");
         assert_eq!(
