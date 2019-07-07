@@ -42,9 +42,10 @@ fn is_v6(network: &str) -> bool {
 }
 
 fn ipset_table(prefix: &str) -> &str {
-    match is_v6(prefix) {
-        true => "test6",
-        false => "test4",
+    if is_v6(prefix) {
+        "test6"
+    } else {
+        "test4"
     }
 }
 
@@ -62,17 +63,17 @@ fn ipset_action(action: &str, prefix: &str) {
     }
 }
 
-fn on_withdrawals(prefixes: &Vec<String>) {
+fn on_withdrawals(prefixes: &[String]) {
     for prefix in prefixes {
-        print!("w {:#?}\n", prefix);
+        println!("w {:#?}", prefix);
         ipset_action("add", prefix);
     }
 }
 
-fn on_announcements(annoucments: &Vec<Annoucment>) {
+fn on_announcements(annoucments: &[Annoucment]) {
     for a in annoucments {
         for prefix in &a.prefixes {
-            print!("a {:#?}\n", prefix);
+            println!("a {:#?}", prefix);
             ipset_action("del", prefix);
         }
     }
@@ -102,10 +103,10 @@ fn main() {
                 continue;
             }
 
-            if msg.data.withdrawals.len() > 0 {
-                on_withdrawals(&msg.data.withdrawals)
-            } else {
+            if msg.data.withdrawals.is_empty() {
                 on_announcements(&msg.data.announcements)
+            } else {
+                on_withdrawals(&msg.data.withdrawals)
             }
         }
     }
