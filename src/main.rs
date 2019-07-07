@@ -102,10 +102,10 @@ fn main() {
                 continue;
             }
 
-            if msg.data.withdrawals.len() > 0 {
-                on_withdrawals(&msg.data.withdrawals)
-            } else {
+            if msg.data.withdrawals.is_empty() {
                 on_announcements(&msg.data.announcements)
+            } else {
+                on_withdrawals(&msg.data.withdrawals)
             }
         }
     }
