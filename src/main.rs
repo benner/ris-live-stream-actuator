@@ -43,9 +43,9 @@ fn is_v6(network: &str) -> bool {
 
 fn ipset_table(prefix: &str) -> &str {
     if is_v6(prefix) {
-        "test6"
+        "ris-ipv6"
     } else {
-        "test4"
+        "ris-ipv4"
     }
 }
 
@@ -132,13 +132,13 @@ mod tests {
     fn test_ipset_table_v6() {
         assert_eq!(
             super::ipset_table("2001:0db8:85a3:0000:0000:8a2e:0370:7334/64"),
-            "test6"
+            "ris-ipv6"
         );
     }
 
     #[test]
     fn test_ipset_table_v4() {
-        assert_eq!(super::ipset_table("172.16.254.1/24"), "test4");
+        assert_eq!(super::ipset_table("172.16.254.1/24"), "ris-ipv4");
     }
 
     #[test]
