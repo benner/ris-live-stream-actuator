@@ -4,9 +4,12 @@ rust:
   - beta
   - nightly
 
-before_script:
-  - rustup component add clippy
-  - rustup component add rustfmt
+before_script: |
+  rustup component add clippy
+  rustup component add rustfmt
+  if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
+    cargo install cargo-tarpaulin
+  fi
 
 script:
   - cargo clippy
