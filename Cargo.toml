@@ -5,8 +5,8 @@ authors = ["Nerijus Bendziunas <nerijus.bendziunas@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-tungstenite = "0.8.1"
-url = "1.7.2"
+tungstenite = "0.10.1"
+url = "2.1.1"
 env_logger = "0.6.1"
 serde = { version = "1.0.60", features = ["serde_derive"] }
 serde_json = "1.0"
