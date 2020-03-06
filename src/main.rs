@@ -1,4 +1,3 @@
-use std::{thread, time};
 use tungstenite::{connect, Message};
 use url::Url;
 use ripe_live_stream_actuator::{on_announcements, on_withdrawals, parse_message};
@@ -12,7 +11,6 @@ fn main() {
 
     let (mut socket, _response) = connect(Url::parse(CONNECTION).unwrap()).expect("Can't connect");
 
-    thread::sleep(time::Duration::from_millis(100));
     socket
         .write_message(Message::Text(SUBSCRIBE.to_string()))
         .unwrap();
