@@ -1,6 +1,6 @@
 [package]
 name = "ripe-live-stream-actuator"
-version = "0.2.4"
+version = "0.2.5"
 authors = ["Nerijus Bendziunas <nerijus.bendziunas@gmail.com>"]
 edition = "2018"
 
