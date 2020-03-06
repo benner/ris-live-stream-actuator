@@ -1,9 +1,3 @@
-extern crate env_logger;
-extern crate serde;
-extern crate serde_json;
-extern crate tungstenite;
-extern crate url;
-
 use serde::Deserialize;
 use std::process::Command;
 use std::vec::Vec;
