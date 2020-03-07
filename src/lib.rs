@@ -35,15 +35,15 @@ fn ipset_table(prefix: &str) -> &str {
 }
 
 fn ipset_action(action: &str, prefix: &str) {
-    let output = Command::new("ipset")
+    let status = Command::new("ipset")
         .arg(action)
         .arg("-exist")
         .arg(ipset_table(prefix))
         .arg(prefix)
-        .output()
+        .status()
         .expect("failed to execute ipset");
 
-    if !output.status.success() {
+    if !status.success() {
         panic!("ipset failed to add prefix");
     }
 }
