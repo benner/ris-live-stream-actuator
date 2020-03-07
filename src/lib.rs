@@ -35,16 +35,14 @@ fn ipset_table(prefix: &str) -> &str {
 }
 
 pub fn ipset_action(action: &str, prefix: &str) {
-    match action {
-        "add" => println!("w {:#?}", prefix),
-        "del" => println!("a {:#?}", prefix),
-        _ => panic!("unknown ipset action"),
-    }
+    let table = ipset_table(prefix);
+
+    println!("ipset {} -exist {} {}", action, table, prefix);
 
     let status = Command::new("ipset")
         .arg(action)
         .arg("-exist")
-        .arg(ipset_table(prefix))
+        .arg(table)
         .arg(prefix)
         .status()
         .expect("failed to execute ipset");
