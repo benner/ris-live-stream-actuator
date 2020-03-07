@@ -4,7 +4,6 @@ use std::vec::Vec;
 
 #[derive(Deserialize, Debug)]
 pub struct Annoucment {
-    next_hop: String,
     pub prefixes: Vec<String>,
 }
 
@@ -160,7 +159,6 @@ mod tests {
           "#,
       );
       assert_eq!(message.data.announcements.len(), 1);
-      assert_eq!(message.data.announcements[0].next_hop, "192.168.0.1");
       assert_eq!(
           message.data.announcements[0].prefixes,
           vec!["192.168.2.0/24"]
