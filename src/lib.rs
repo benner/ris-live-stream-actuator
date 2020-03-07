@@ -34,7 +34,13 @@ fn ipset_table(prefix: &str) -> &str {
     }
 }
 
-fn ipset_action(action: &str, prefix: &str) {
+pub fn ipset_action(action: &str, prefix: &str) {
+    match action {
+        "add" => println!("w {:#?}", prefix),
+        "del" => println!("a {:#?}", prefix),
+        _ => panic!("unknown ipset action"),
+    }
+
     let status = Command::new("ipset")
         .arg(action)
         .arg("-exist")
@@ -45,21 +51,6 @@ fn ipset_action(action: &str, prefix: &str) {
 
     if !status.success() {
         panic!("ipset failed to add prefix");
-    }
-}
-
-pub fn on_withdrawals(prefixes: &[String]) {
-    for prefix in prefixes {
-        println!("w {:#?}", prefix);
-        ipset_action("add", prefix);
-    }
-}
-
-pub fn on_announcements(annoucments: &[Annoucment]) {
-    let prefixes: Vec<&String> = annoucments.iter().flat_map(|a| &a.prefixes).collect();
-    for prefix in prefixes {
-        println!("a {:#?}", prefix);
-        ipset_action("del", prefix);
     }
 }
 

@@ -1,6 +1,6 @@
 use tungstenite::{connect, Message};
 use url::Url;
-use ripe_live_stream_actuator::{on_announcements, on_withdrawals, parse_message};
+use ripe_live_stream_actuator::{ipset_action, parse_message};
 
 // FIXME: shoulbe be parameterized
 const CONNECTION: &str = r#"wss://ris-live.ripe.net/v1/ws/?client=rust-workshop-1299"#;
@@ -23,10 +23,14 @@ fn main() {
                 continue;
             }
 
-            if msg.data.withdrawals.is_empty() {
-                on_announcements(&msg.data.announcements)
-            } else {
-                on_withdrawals(&msg.data.withdrawals)
+            let updates : Vec<(&str, &String)>= msg.data.announcements.iter()
+                .flat_map(|a| &a.prefixes)
+                .map(|p| ("del", p))
+                .chain(msg.data.withdrawals.iter().map(|p| ("add", p)))
+                .collect();
+
+            for update in updates {
+                ipset_action(update.0, update.1)
             }
         }
     }
