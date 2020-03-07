@@ -19,7 +19,7 @@ pub struct Data {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct MSG {
+pub struct RisBgpMessage {
     pub r#type: String,
     pub data: Data,
 }
@@ -66,9 +66,9 @@ pub fn on_announcements(annoucments: &[Annoucment]) {
     }
 }
 
-pub fn parse_message(message: &str) -> MSG {
+pub fn parse_message(message: &str) -> RisBgpMessage {
     let json = message;
-    let msg: MSG = serde_json::from_str(&json).unwrap();
+    let msg: RisBgpMessage = serde_json::from_str(&json).unwrap();
     msg
 }
 
@@ -109,7 +109,7 @@ mod tests {
 
   #[test]
   fn test_parse_message_defaul_values() {
-      let message: super::MSG = super::parse_message(
+      let message: super::RisBgpMessage = super::parse_message(
           r#"
           {
               "type": "ris_data",
@@ -126,7 +126,7 @@ mod tests {
 
   #[test]
   fn test_parse_message_withdrawals() {
-      let message: super::MSG = super::parse_message(
+      let message: super::RisBgpMessage = super::parse_message(
           r#"
           {
               "type": "ris_data",
@@ -144,7 +144,7 @@ mod tests {
 
   #[test]
   fn test_parse_message_announcements() {
-      let message: super::MSG = super::parse_message(
+      let message: super::RisBgpMessage = super::parse_message(
           r#"
           {
               "type": "ris_data",
