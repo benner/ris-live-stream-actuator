@@ -398,7 +398,7 @@ dependencies = [
 
 [[package]]
 name = "ripe-live-stream-actuator"
-version = "0.2.9"
+version = "0.3.0"
 dependencies = [
  "env_logger 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.104 (registry+https://github.com/rust-lang/crates.io-index)",
