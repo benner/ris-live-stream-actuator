@@ -56,11 +56,10 @@ pub fn on_withdrawals(prefixes: &[String]) {
 }
 
 pub fn on_announcements(annoucments: &[Annoucment]) {
-    for a in annoucments {
-        for prefix in &a.prefixes {
-            println!("a {:#?}", prefix);
-            ipset_action("del", prefix);
-        }
+    let prefixes: Vec<&String> = annoucments.iter().flat_map(|a| &a.prefixes).collect();
+    for prefix in prefixes {
+        println!("a {:#?}", prefix);
+        ipset_action("del", prefix);
     }
 }
 
