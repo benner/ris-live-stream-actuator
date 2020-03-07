@@ -63,42 +63,42 @@ pub fn parse_message(message: &str) -> RisBgpMessage {
 #[cfg(test)]
 mod tests {
 
-  #[test]
-  fn test_is_v6() {
-      assert_eq!(
-          super::is_v6("2001:0db8:85a3:0000:0000:8a2e:0370:7334/64"),
-          true
-      );
-  }
+    #[test]
+    fn test_is_v6() {
+        assert_eq!(
+            super::is_v6("2001:0db8:85a3:0000:0000:8a2e:0370:7334/64"),
+            true
+        );
+    }
 
-  #[test]
-  fn test_not_v6() {
-      assert_eq!(super::is_v6("172.16.254.1/24"), false);
-  }
+    #[test]
+    fn test_not_v6() {
+        assert_eq!(super::is_v6("172.16.254.1/24"), false);
+    }
 
-  #[test]
-  fn test_ipset_table_v6() {
-      assert_eq!(
-          super::ipset_table("2001:0db8:85a3:0000:0000:8a2e:0370:7334/64"),
-          "ris-ipv6"
-      );
-  }
+    #[test]
+    fn test_ipset_table_v6() {
+        assert_eq!(
+            super::ipset_table("2001:0db8:85a3:0000:0000:8a2e:0370:7334/64"),
+            "ris-ipv6"
+        );
+    }
 
-  #[test]
-  fn test_ipset_table_v4() {
-      assert_eq!(super::ipset_table("172.16.254.1/24"), "ris-ipv4");
-  }
+    #[test]
+    fn test_ipset_table_v4() {
+        assert_eq!(super::ipset_table("172.16.254.1/24"), "ris-ipv4");
+    }
 
-  #[test]
-  #[should_panic]
-  fn test_parse_message_empty() {
-      let _message = super::parse_message("{}");
-  }
+    #[test]
+    #[should_panic]
+    fn test_parse_message_empty() {
+        let _message = super::parse_message("{}");
+    }
 
-  #[test]
-  fn test_parse_message_defaul_values() {
-      let message: super::RisBgpMessage = super::parse_message(
-          r#"
+    #[test]
+    fn test_parse_message_defaul_values() {
+        let message: super::RisBgpMessage = super::parse_message(
+            r#"
           {
               "type": "ris_data",
               "data": {
@@ -107,15 +107,15 @@ mod tests {
                       }
           }
           "#,
-      );
-      assert_eq!(message.data.announcements.len(), 0);
-      assert_eq!(message.data.withdrawals.len(), 0);
-  }
+        );
+        assert_eq!(message.data.announcements.len(), 0);
+        assert_eq!(message.data.withdrawals.len(), 0);
+    }
 
-  #[test]
-  fn test_parse_message_withdrawals() {
-      let message: super::RisBgpMessage = super::parse_message(
-          r#"
+    #[test]
+    fn test_parse_message_withdrawals() {
+        let message: super::RisBgpMessage = super::parse_message(
+            r#"
           {
               "type": "ris_data",
               "data": {
@@ -125,15 +125,15 @@ mod tests {
                       }
           }
           "#,
-      );
-      assert_eq!(message.data.withdrawals.len(), 1);
-      assert_eq!(message.data.withdrawals, vec!["192.168.0.1/24"]);
-  }
+        );
+        assert_eq!(message.data.withdrawals.len(), 1);
+        assert_eq!(message.data.withdrawals, vec!["192.168.0.1/24"]);
+    }
 
-  #[test]
-  fn test_parse_message_announcements() {
-      let message: super::RisBgpMessage = super::parse_message(
-          r#"
+    #[test]
+    fn test_parse_message_announcements() {
+        let message: super::RisBgpMessage = super::parse_message(
+            r#"
           {
               "type": "ris_data",
               "data": {
@@ -146,11 +146,11 @@ mod tests {
                       }
           }
           "#,
-      );
-      assert_eq!(message.data.announcements.len(), 1);
-      assert_eq!(
-          message.data.announcements[0].prefixes,
-          vec!["192.168.2.0/24"]
-      );
-  }
+        );
+        assert_eq!(message.data.announcements.len(), 1);
+        assert_eq!(
+            message.data.announcements[0].prefixes,
+            vec!["192.168.2.0/24"]
+        );
+    }
 }
