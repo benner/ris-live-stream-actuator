@@ -9,7 +9,6 @@ pub struct Annoucment {
 
 #[derive(Deserialize, Debug)]
 pub struct Data {
-    timestamp: f64,
     pub r#type: String,
     #[serde(default)]
     pub announcements: Vec<Annoucment>,
