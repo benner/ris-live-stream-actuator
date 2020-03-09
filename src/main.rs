@@ -23,18 +23,13 @@ fn main() {
                 continue;
             }
 
-            let updates: Vec<(&str, &String)> = msg
-                .data
+            msg.data
                 .announcements
                 .iter()
                 .flat_map(|a| &a.prefixes)
                 .map(|p| ("del", p))
                 .chain(msg.data.withdrawals.iter().map(|p| ("add", p)))
-                .collect();
-
-            for update in updates {
-                ipset_action(update.0, update.1)
-            }
+                .for_each(|p| ipset_action(p.0, p.1));
         }
     }
 }
