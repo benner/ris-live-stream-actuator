@@ -1,4 +1,4 @@
-use ripe_live_stream_actuator::{ipset_action, parse_message};
+use ripe_live_stream_actuator::{ipset_action, on_update, parse_message};
 use tungstenite::{connect, Message};
 use url::Url;
 
@@ -22,14 +22,7 @@ fn main() {
             if msg.data.r#type != "UPDATE" {
                 continue;
             }
-
-            msg.data
-                .announcements
-                .iter()
-                .flat_map(|a| &a.prefixes)
-                .map(|p| ("del", p))
-                .chain(msg.data.withdrawals.iter().map(|p| ("add", p)))
-                .for_each(|p| ipset_action(p.0, p.1));
+            on_update(msg.data, ipset_action);
         }
     }
 }
