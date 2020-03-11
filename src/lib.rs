@@ -41,6 +41,19 @@ fn ipset_table(prefix: &str) -> &str {
     table
 }
 
+pub fn on_update<F>(data: Data, action: F)
+where
+    F: Fn(&str, &str),
+{
+    trace!("handling {:?} for update action", data);
+    data.announcements
+        .iter()
+        .flat_map(|a| &a.prefixes)
+        .map(|p| ("del", p))
+        .chain(data.withdrawals.iter().map(|p| ("add", p)))
+        .for_each(move |p| action(p.0, p.1));
+}
+
 #[cfg_attr(tarpaulin, skip)]
 pub fn ipset_action(action: &str, prefix: &str) {
     let table = ipset_table(prefix);
@@ -159,5 +172,39 @@ mod tests {
             message.data.announcements[0].prefixes,
             vec!["192.168.2.0/24"]
         );
+    }
+
+    #[test]
+    fn test_on_update_add() {
+        let data = super::Data {
+            r#type: String::from("UPDATE"),
+            announcements: vec![super::Annoucment { prefixes: vec![] }],
+            withdrawals: vec![String::from("127.0.0.1/8")],
+        };
+
+        let update = |action: &str, prefix: &str| {
+            assert_eq!(action, "add");
+            assert_eq!(prefix, "127.0.0.1/8");
+        };
+
+        super::on_update(data, update);
+    }
+
+    #[test]
+    fn test_on_update_del() {
+        let data = super::Data {
+            r#type: String::from("UPDATE"),
+            announcements: vec![super::Annoucment {
+                prefixes: vec![String::from("::1/128")],
+            }],
+            withdrawals: vec![],
+        };
+
+        let action = |action: &str, prefix: &str| {
+            assert_eq!(action, "del");
+            assert_eq!(prefix, "::1/128");
+        };
+
+        super::on_update(data, action);
     }
 }
