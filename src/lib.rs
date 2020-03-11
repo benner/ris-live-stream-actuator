@@ -1,3 +1,4 @@
+use log::debug;
 use serde::Deserialize;
 use std::process::Command;
 use std::vec::Vec;
@@ -37,7 +38,7 @@ fn ipset_table(prefix: &str) -> &str {
 pub fn ipset_action(action: &str, prefix: &str) {
     let table = ipset_table(prefix);
 
-    println!("ipset {} -exist {} {}", action, table, prefix);
+    debug!("ipset {} -exist {} {}", action, table, prefix);
 
     let status = Command::new("ipset")
         .arg(action)
