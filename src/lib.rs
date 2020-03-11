@@ -41,6 +41,7 @@ fn ipset_table(prefix: &str) -> &str {
     table
 }
 
+#[cfg_attr(tarpaulin, skip)]
 pub fn ipset_action(action: &str, prefix: &str) {
     let table = ipset_table(prefix);
 
