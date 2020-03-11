@@ -30,11 +30,15 @@ fn is_v6(network: &str) -> bool {
 }
 
 fn ipset_table(prefix: &str) -> &str {
-    if is_v6(prefix) {
+    let table = if is_v6(prefix) {
         "ris-ipv6"
     } else {
         "ris-ipv4"
-    }
+    };
+
+    trace!("table for prefix {}: {}", prefix, table);
+
+    table
 }
 
 pub fn ipset_action(action: &str, prefix: &str) {
