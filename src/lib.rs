@@ -1,4 +1,4 @@
-use log::debug;
+use log::{debug, trace};
 use serde::Deserialize;
 use std::process::Command;
 use std::vec::Vec;
@@ -24,7 +24,9 @@ pub struct RisBgpMessage {
 }
 
 fn is_v6(network: &str) -> bool {
-    network.contains(':')
+    let contains = network.contains(':');
+    trace!("network {} is IPv6: {}", network, contains);
+    contains
 }
 
 fn ipset_table(prefix: &str) -> &str {
