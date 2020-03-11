@@ -62,6 +62,7 @@ pub fn ipset_action(action: &str, prefix: &str) {
 pub fn parse_message(message: &str) -> RisBgpMessage {
     let json = message;
     let msg: RisBgpMessage = serde_json::from_str(&json).unwrap();
+    trace!("message parsed into {:?}", msg);
     msg
 }
 
