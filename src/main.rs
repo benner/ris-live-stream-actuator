@@ -1,15 +1,26 @@
+use log::debug;
 use ripe_live_stream_actuator::{ipset_action, on_update, parse_message};
+use structopt::StructOpt;
 use tungstenite::{connect, Message};
 use url::Url;
 
-// FIXME: shoulbe be parameterized
-const CONNECTION: &str = r#"wss://ris-live.ripe.net/v1/ws/?client=rust-workshop-1299"#;
 const SUBSCRIBE: &str = r#"{"type": "ris_subscribe", "data": {"host": "rrc21"}}"#;
+
+#[derive(StructOpt, Debug)]
+struct Opts {
+    #[structopt(
+        default_value = r#"wss://ris-live.ripe.net/v1/ws/?client=rust-workshop-1299"#,
+        long
+    )]
+    ris_url: Url,
+}
 
 fn main() {
     env_logger::init();
+    let opts = Opts::from_args();
+    debug!("options: #{:?}", opts);
 
-    let (mut socket, _response) = connect(Url::parse(CONNECTION).unwrap()).expect("Can't connect");
+    let (mut socket, _response) = connect(opts.ris_url).expect("Can't connect");
 
     socket
         .write_message(Message::Text(SUBSCRIBE.to_string()))
