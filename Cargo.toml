@@ -9,6 +9,6 @@ tungstenite = "0.10.1"
 url = "2.1.1"
 env_logger = "0.7.1"
 log = "0.4.8"
-serde = { version = "1.0.104", features = ["serde_derive"] }
-serde_json = "1.0.48"
-structopt = "0.3.11"
+serde = { version = "1.0.107", features = ["serde_derive"] }
+serde_json = "1.0.52"
+structopt = "0.3.14"
