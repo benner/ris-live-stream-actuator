@@ -1,6 +1,6 @@
 # ris-live-stream-actuator
 
-[![Build Status](https://travis-ci.com/travis-ci/travis-web.svg?branch=master)](https://travis-ci.com/travis-ci/travis-web)
+![Build Status](https://github.com/benner/ris-live-stream-actuator/actions/workflows/rust.yml/badge.svg)
 ![Coveralls github branch](https://img.shields.io/coveralls/github/benner/ris-live-stream-actuator/master)
 
 Initial idea is to have some actions based on BGP network changes. Tool expects two tables (due `ipset` limits): `ris-ipv4` for IPv4 and `ris-ipv6` for IPv6 networks/prefixes.
