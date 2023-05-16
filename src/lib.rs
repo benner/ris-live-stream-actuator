@@ -54,7 +54,7 @@ where
         .for_each(move |p| action(p.0, p.1));
 }
 
-#[cfg_attr(tarpaulin, skip)]
+#[cfg(not(tarpaulin_include))]
 pub fn ipset_action(action: &str, prefix: &str) {
     let table = ipset_table(prefix);
 
